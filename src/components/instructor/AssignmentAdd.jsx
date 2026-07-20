@@ -8,15 +8,51 @@ const AssignmentAdd = ({ onClose, secNo }) => {
   const [assignment, setAssignment] = useState({ title: '', dueDate: '' });
   const dialogRef = useRef();
 
+    const onChange = (event) => {
+        setAssignment({ ...assignment, [event.target.name]: event.target.value });
+    };
+
   /*
    *  dialog for add assignment
    */
   const editOpen = () => {
     setMessage('');
     setAssignment({ ...assignment, secNo: secNo, title: '', dueDate: '' });
-    // to be implemented.  invoke showModal() method on the dialog element.
-    // dialogRef.current.showModal();
+    dialogRef.current.showModal();
   };
+
+  // Closes add assignment dialog, clears input fields, refreshes assignment list
+  const editClose = () => {
+    dialogRef.current.close();
+    onClose();
+  }
+
+  // Send post request to add assignment to database
+  const onSave = async () => {
+    try {
+      // Send post request
+      const response = await fetch(`${GRADEBOOK_URL}/assignments`, {
+        method: 'POST',
+        headers: {
+          'Content-Type':'application/json',
+          'Authorization': sessionStorage.getItem("jwt"),
+        },
+        body: JSON.stringify(assignment)
+      });
+
+      // Check response
+      if (response.ok) {
+        const data = await response.json();
+        alert(`Assignment ${data.id} successfully created.`)
+        setMessage('');
+      } else {
+        const data = await response.json();
+        setMessage(data);
+      }
+    } catch (err) {
+      alert("request failed " + err);
+    }
+  }
 
   return (
     <>
@@ -24,7 +60,10 @@ const AssignmentAdd = ({ onClose, secNo }) => {
       <dialog ref={dialogRef} >
         <h2>Add Assignment</h2>
         <Messages response={message} />
-        <p>To be implemented. Prompt for title, due. With buttons for Close and Save.</p>
+        <input id="title" type="text" name="title" placeholder="Title" onChange={onChange}/>
+        <input id="dueDate" type="text" name="dueDate" placeholder="Due Date" onChange={onChange}/>
+        <button id="saveButton" onClick={onSave}>save</button>
+        <button id="closeButton" onClick={editClose}>close</button>
       </dialog>
     </>
   )
