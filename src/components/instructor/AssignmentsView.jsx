@@ -59,7 +59,24 @@ const AssignmentsView = () => {
         For each row, show the id, title, due date of the assignment
         along with buttons to edit and delete the assignment </p>
 
-
+      <table>
+        <thead>
+          <tr>
+            <th>{headers[0]}</th>
+            <th>{headers[1]}</th>
+            <th>{headers[2]}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {assignments.map((assignment) => (
+            <tr key={assignment.id}>
+              <td>{assignment.id}</td>
+              <td>{assignment.title}</td>
+              <td>{assignment.dueDate}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       <AssignmentAdd secNo={secNo} onClose={fetchAssignments} />
     </div>
