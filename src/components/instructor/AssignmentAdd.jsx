@@ -60,8 +60,8 @@ const AssignmentAdd = ({ onClose, secNo }) => {
       <dialog ref={dialogRef} >
         <h2>Add Assignment</h2>
         <Messages response={message} />
-        <input id="title" type="text" name="title" placeholder="Title" onChange={onChange}/>
-        <input id="dueDate" type="text" name="dueDate" placeholder="Due Date" onChange={onChange}/>
+        <input id="title" type="text" name="title" placeholder="Title" onChange={onChange} value={assignment.title}/>
+        <input id="dueDate" type="text" name="dueDate" placeholder="Due Date" onChange={onChange} value={assignment.dueDate}/>
         <button id="saveButton" onClick={onSave}>save</button>
         <button id="closeButton" onClick={editClose}>close</button>
       </dialog>
