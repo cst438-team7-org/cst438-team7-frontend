@@ -21,7 +21,7 @@ const AssignmentAdd = ({ onClose, secNo }) => {
     dialogRef.current.showModal();
   };
 
-  // Closes add assignment dialog, clears input fields, refreshes assignment list
+  // Closes add assignment dialog and refreshes assignment list
   const editClose = () => {
     dialogRef.current.close();
     onClose();
