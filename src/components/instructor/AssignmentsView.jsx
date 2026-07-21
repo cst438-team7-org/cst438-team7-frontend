@@ -89,11 +89,6 @@ const AssignmentsView = () => {
   return (
     <div>
       <Messages response={message} />
-
-      <p>To be implemented. Display a table. Column headings are as givin in headers.
-        For each row, show the id, title, due date of the assignment
-        along with buttons to edit and delete the assignment </p>
-
       <table>
         <thead>
           <tr>
