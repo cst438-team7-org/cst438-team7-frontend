@@ -19,7 +19,6 @@ const AssignmentsView = () => {
 
 
   const fetchAssignments = async () => {
-
     try {
       const response = await fetch(`${GRADEBOOK_URL}/sections/${secNo}/assignments`,
         {
@@ -42,12 +41,48 @@ const AssignmentsView = () => {
     }
   }
 
+  // Show a confirm alert asking the user if they want to delete the selected assignment.
+  const confirmDelete = (assignmentId) => {
+    confirmAlert({
+      title: 'Confirm to delete',
+      message: 'Delete assignment ' + assignmentId + '?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => doDelete(assignmentId)
+        },
+        {
+          label: 'No',
+        }
+      ]
+    });
+  }
+
+  // Send a DELETE request to delete the assignemnt with the corresponding id.
+  const doDelete = async (assignmentId) => {
+    // Send request and get server response
+    const response = await fetch(
+      `${GRADEBOOK_URL}/assignments/${assignmentId}`,
+      {
+        method: "DELETE",
+        headers: {
+          'Authorization': sessionStorage.getItem("jwt")
+        },
+      }
+    );
+
+    // Check server response
+    if (response.ok) {
+      alert(`Assignment ${assignmentId} successfully deleted.`);
+      fetchAssignments();
+    } else {
+      alert("Assignment delete failed.");
+    }
+  }
+
   useEffect(() => {
     fetchAssignments()
   }, []);
-
-
-
 
   const headers = ['id', 'Title', 'Due Date', '', '', ''];
 
@@ -65,6 +100,7 @@ const AssignmentsView = () => {
             <th>{headers[0]}</th>
             <th>{headers[1]}</th>
             <th>{headers[2]}</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -73,6 +109,8 @@ const AssignmentsView = () => {
               <td>{assignment.id}</td>
               <td>{assignment.title}</td>
               <td>{assignment.dueDate}</td>
+              <td><button onClick={() => confirmDelete(assignment.id)}>Delete</button></td>
+
             </tr>
           ))}
         </tbody>
