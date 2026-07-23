@@ -60,23 +60,27 @@ const AssignmentsView = () => {
 
   // Send a DELETE request to delete the assignemnt with the corresponding id.
   const doDelete = async (assignmentId) => {
-    // Send request and get server response
-    const response = await fetch(
-      `${GRADEBOOK_URL}/assignments/${assignmentId}`,
-      {
-        method: "DELETE",
-        headers: {
-          'Authorization': sessionStorage.getItem("jwt")
-        },
-      }
-    );
+    try {
+      // Send request and get server response
+      const response = await fetch(
+        `${GRADEBOOK_URL}/assignments/${assignmentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            'Authorization': sessionStorage.getItem("jwt")
+          },
+        }
+      );
 
-    // Check server response
-    if (response.ok) {
-      alert(`Assignment ${assignmentId} successfully deleted.`);
-      fetchAssignments();
-    } else {
-      alert("Assignment delete failed.");
+      // Check server response
+      if (response.ok) {
+        alert(`Assignment ${assignmentId} successfully deleted.`);
+        fetchAssignments();
+      } else {
+        alert("Assignment delete failed.");
+      }
+    } catch (err) {
+      setMessage(err);
     }
   }
 
