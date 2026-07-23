@@ -101,6 +101,7 @@ const AssignmentsView = () => {
             <th>{headers[2]}</th>
             <th></th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -109,6 +110,7 @@ const AssignmentsView = () => {
               <td>{assignment.id}</td>
               <td>{assignment.title}</td>
               <td>{assignment.dueDate}</td>
+              <td><AssignmentGrade assignment={assignment} /></td>
               <td><AssignmentUpdate editAssignment={assignment} onClose={fetchAssignments}/></td>
               <td><button onClick={() => confirmDelete(assignment.id)}>Delete</button></td>
             </tr>
