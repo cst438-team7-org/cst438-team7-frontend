@@ -74,10 +74,10 @@ const AssignmentsView = () => {
 
       // Check server response
       if (response.ok) {
-        alert(`Assignment ${assignmentId} successfully deleted.`);
+        setMessage(`Assignment ${assignmentId} successfully deleted.`);
         fetchAssignments();
       } else {
-        alert("Assignment delete failed.");
+        setMessage("Assignment delete failed.");
       }
     } catch (err) {
       setMessage(err);
