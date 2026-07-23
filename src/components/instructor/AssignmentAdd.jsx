@@ -43,8 +43,7 @@ const AssignmentAdd = ({ onClose, secNo }) => {
       // Check response
       if (response.ok) {
         const data = await response.json();
-        alert(`Assignment ${data.id} successfully created.`)
-        setMessage('');
+        setMessage(`Assignment ${data.id} successfully created.`);
       } else {
         const data = await response.json();
         setMessage(data);
