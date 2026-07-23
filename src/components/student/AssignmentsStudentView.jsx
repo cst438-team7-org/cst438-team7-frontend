@@ -41,13 +41,21 @@ const AssignmentsStudentView = () => {
       <SelectTerm buttonText="Get Assignments" onClick={fetchData} />
 
       <table className="Center">
-        <thead>
-          <tr>
-            {headers.map((h, idx) => <th key={idx}>{h}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
+          <thead>
+            <tr>
+                {headers.map((h, idx) => <th key={idx}>{h}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {assignments.map((a) => (
+                <tr key={a.assignmentId}>
+                    <td>{a.courseId}</td>
+                    <td>{a.title}</td>
+                    <td>{a.dueDate}</td>
+                    <td>{a.score}</td>
+                </tr>
+            ))}
+          </tbody>
       </table>
     </>
   );
