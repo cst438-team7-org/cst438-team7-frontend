@@ -19,7 +19,6 @@ const AssignmentsView = () => {
 
 
   const fetchAssignments = async () => {
-
     try {
       const response = await fetch(`${GRADEBOOK_URL}/sections/${secNo}/assignments`,
         {
@@ -42,24 +41,82 @@ const AssignmentsView = () => {
     }
   }
 
+  // Show a confirm alert asking the user if they want to delete the selected assignment.
+  const confirmDelete = (assignmentId) => {
+    confirmAlert({
+      title: 'Confirm to delete',
+      message: 'Delete assignment ' + assignmentId + '?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => doDelete(assignmentId)
+        },
+        {
+          label: 'No',
+        }
+      ]
+    });
+  }
+
+  // Send a DELETE request to delete the assignemnt with the corresponding id.
+  const doDelete = async (assignmentId) => {
+    try {
+      // Send request and get server response
+      const response = await fetch(
+        `${GRADEBOOK_URL}/assignments/${assignmentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            'Authorization': sessionStorage.getItem("jwt")
+          },
+        }
+      );
+
+      // Check server response
+      if (response.ok) {
+        setMessage(`Assignment ${assignmentId} successfully deleted.`);
+        fetchAssignments();
+      } else {
+        setMessage("Assignment delete failed.");
+      }
+    } catch (err) {
+      setMessage(err);
+    }
+  }
+
   useEffect(() => {
     fetchAssignments()
   }, []);
-
-
-
 
   const headers = ['id', 'Title', 'Due Date', '', '', ''];
 
   return (
     <div>
       <Messages response={message} />
-
-      <p>To be implemented. Display a table. Column headings are as givin in headers.
-        For each row, show the id, title, due date of the assignment
-        along with buttons to edit and delete the assignment </p>
-
-
+      <table className="Center">
+        <thead>
+          <tr>
+            <th>{headers[0]}</th>
+            <th>{headers[1]}</th>
+            <th>{headers[2]}</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {assignments.map((assignment) => (
+            <tr key={assignment.id}>
+              <td>{assignment.id}</td>
+              <td>{assignment.title}</td>
+              <td>{assignment.dueDate}</td>
+              <td><AssignmentGrade assignment={assignment} /></td>
+              <td><AssignmentUpdate editAssignment={assignment} onClose={fetchAssignments}/></td>
+              <td><button onClick={() => confirmDelete(assignment.id)}>Delete</button></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       <AssignmentAdd secNo={secNo} onClose={fetchAssignments} />
     </div>
