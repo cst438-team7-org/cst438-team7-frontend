@@ -50,7 +50,7 @@ const AssignmentUpdate = ({ editAssignment, onClose }) => {
         setMessage(data);
       }
     } catch (err) {
-      alert("request failed " + err);
+      setMessage("request failed " + err);
     }
   }
 
