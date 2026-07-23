@@ -13,8 +13,7 @@ const AssignmentGrade = ({ assignment }) => {
     setMessage('');
     setGrades([]);
     fetchGrades(assignment.id);
-    // to be implemented.  invoke showModal() method on the dialog element.
-    // dialogRef.current.showModal();
+    dialogRef.current.showModal();
   };
 
   const editClose = () => {
