@@ -49,7 +49,7 @@ const AssignmentAdd = ({ onClose, secNo }) => {
         setMessage(data);
       }
     } catch (err) {
-      alert("request failed " + err);
+      setMessage("request failed " + err);
     }
   }
 
