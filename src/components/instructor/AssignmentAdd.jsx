@@ -8,9 +8,9 @@ const AssignmentAdd = ({ onClose, secNo }) => {
   const [assignment, setAssignment] = useState({ title: '', dueDate: '' });
   const dialogRef = useRef();
 
-    const onChange = (event) => {
-        setAssignment({ ...assignment, [event.target.name]: event.target.value });
-    };
+  const onChange = (event) => {
+    setAssignment({ ...assignment, [event.target.name]: event.target.value });
+  };
 
   /*
    *  dialog for add assignment
