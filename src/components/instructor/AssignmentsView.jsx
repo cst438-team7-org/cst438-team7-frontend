@@ -93,7 +93,7 @@ const AssignmentsView = () => {
   return (
     <div>
       <Messages response={message} />
-      <table>
+      <table className="Center">
         <thead>
           <tr>
             <th>{headers[0]}</th>
