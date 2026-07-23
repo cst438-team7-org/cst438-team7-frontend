@@ -49,11 +49,35 @@ const AssignmentGrade = ({ assignment }) => {
     <>
       <button id="gradeButton" onClick={editOpen}>Grade</button>
       <dialog ref={dialogRef}>
-        <p>To be implemented.  Display table with columns headings as given in headers.
-          For each student, display and allow the user to edit the student's score.
-          Buttons for Close and Save.
-        </p>
-
+        <h2>Grade Assignment</h2>
+        <Messages response={message} />
+        <table className="Center">
+          <thead>
+            <tr>
+              {headers.map((h, idx) => <th key={idx}>{h}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {grades.map((g) => (
+              <tr key={g.gradeId}>
+                <td>{g.gradeId}</td>
+                <td>{g.studentName}</td>
+                <td>{g.studentEmail}</td>
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={g.score ?? ''}
+                    onChange={(e) => onChange(g.gradeId, e.target.value)}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button onClick={editClose}>Close</button>
+        <button>Save</button>
       </dialog>
     </>
   );
