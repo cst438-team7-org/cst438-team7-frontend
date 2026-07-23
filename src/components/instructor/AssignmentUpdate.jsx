@@ -44,8 +44,7 @@ const AssignmentUpdate = ({ editAssignment, onClose }) => {
       // Check response
       if (response.ok) {
         const data = await response.json();
-        alert(`Assignment ${data.id} successfully updated.`)
-        setMessage('');
+        setMessage(`Assignment ${data.id} successfully updated.`);
       } else {
         const data = await response.json();
         setMessage(data);
