@@ -93,30 +93,32 @@ const AssignmentsView = () => {
   return (
     <div>
       <Messages response={message} />
-      <table className="Center">
-        <thead>
-          <tr>
-            <th>{headers[0]}</th>
-            <th>{headers[1]}</th>
-            <th>{headers[2]}</th>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {assignments.map((assignment) => (
-            <tr key={assignment.id}>
-              <td>{assignment.id}</td>
-              <td>{assignment.title}</td>
-              <td>{assignment.dueDate}</td>
-              <td><AssignmentGrade assignment={assignment} /></td>
-              <td><AssignmentUpdate editAssignment={assignment} onClose={fetchAssignments}/></td>
-              <td><button onClick={() => confirmDelete(assignment.id)}>Delete</button></td>
+      {assignments.length > 0 && (
+          <table className="Center">
+            <thead>
+            <tr>
+              <th>{headers[0]}</th>
+              <th>{headers[1]}</th>
+              <th>{headers[2]}</th>
+              <th></th>
+              <th></th>
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {assignments.map((assignment) => (
+              <tr key={assignment.id}>
+                <td>{assignment.id}</td>
+                <td>{assignment.title}</td>
+                <td>{assignment.dueDate}</td>
+                <td><AssignmentGrade assignment={assignment} /></td>
+                <td><AssignmentUpdate editAssignment={assignment} onClose={fetchAssignments}/></td>
+                <td><button onClick={() => confirmDelete(assignment.id)}>Delete</button></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       <AssignmentAdd secNo={secNo} onClose={fetchAssignments} />
     </div>

@@ -62,8 +62,8 @@ const AssignmentUpdate = ({ editAssignment, onClose }) => {
         <Messages response={message} />
         <input id="title" type="text" name="title" placeholder="Title" onChange={onChange} value={assignment.title}/>
         <input id="dueDate" type="date" name="dueDate" placeholder="Due Date" onChange={onChange} value={assignment.dueDate}/>
-        <button id="saveButton" onClick={onSave}>save</button>
-        <button id="closeButton" onClick={editClose}>close</button>
+        <button id="closeButton" onClick={editClose}>Close</button>
+                <button id="saveButton" onClick={onSave}>Save</button>
       </dialog>
     </>
   )
