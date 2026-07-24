@@ -59,20 +59,20 @@ const AssignmentGrade = ({ assignment }) => {
           </thead>
           <tbody>
             {grades.map((g) => (
-              <tr key={g.gradeId}>
-                <td>{g.gradeId}</td>
-                <td>{g.studentName}</td>
-                <td>{g.studentEmail}</td>
-                <td>
-                  <input
-                    type="number"
-                    min="0"
-                    max="100"
-                    value={g.score ?? ''}
-                    onChange={(e) => onChange(g.gradeId, e.target.value)}
-                  />
-                </td>
-              </tr>
+                <tr key={g.gradeId}>
+                  <td>{g.gradeId}</td>
+                  <td>{g.studentName}</td>
+                  <td>{g.studentEmail}</td>
+                  <td>
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      value={g.score ?? ''}
+                      onChange={(e) => onChange(g.gradeId, e.target.value)}
+                    />
+                  </td>
+                </tr>
             ))}
           </tbody>
         </table>
