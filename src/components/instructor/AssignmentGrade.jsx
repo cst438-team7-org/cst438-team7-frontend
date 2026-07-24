@@ -41,6 +41,37 @@ const AssignmentGrade = ({ assignment }) => {
     }
   }
 
+  const onChange = (gradeId, value) => {
+    const assignGrades = [];
+
+    for (let i = 0; i < grades.length; i++) {
+      if (grades[i].gradeId === gradeId) {
+        let score;
+
+        if (value === '') {
+          score = null;
+        } else {
+          score = parseInt(value);
+        }
+
+        const assignGrade = {
+          gradeId: grades[i].gradeId,
+          studentName: grades[i].studentName,
+          studentEmail: grades[i].studentEmail,
+          assignmentTitle: grades[i].assignmentTitle,
+          courseId: grades[i].courseId,
+          sectionId: grades[i].sectionId,
+          score: score
+        };
+
+        assignGrades.push(assignGrade);
+      } else {
+        assignGrades.push(grades[i]);
+      }
+    }
+    setGrades(assignGrades);
+  };
+
   const onSave = async () => {
     try {
       const response = await fetch(`${GRADEBOOK_URL}/grades`, {
@@ -87,7 +118,7 @@ const AssignmentGrade = ({ assignment }) => {
                       type="number"
                       min="0"
                       max="100"
-                      value={g.score ?? ''}
+                      value={g.score !== null ? g.score : ''}
                       onChange={(e) => onChange(g.gradeId, e.target.value)}
                     />
                   </td>
