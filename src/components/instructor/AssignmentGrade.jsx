@@ -41,7 +41,26 @@ const AssignmentGrade = ({ assignment }) => {
     }
   }
 
-
+  const onSave = async () => {
+    try {
+      const response = await fetch(`${GRADEBOOK_URL}/grades`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': sessionStorage.getItem('jwt'),
+        },
+        body: JSON.stringify(grades),
+      });
+      if (response.ok) {
+        setMessage('Grades saved');
+      } else {
+        const data = await response.json();
+        setMessage(data);
+      }
+    } catch (err) {
+      setMessage(err);
+    }
+  };
 
   const headers = ['gradeId', 'student name', 'student email', 'score'];
 
@@ -77,7 +96,7 @@ const AssignmentGrade = ({ assignment }) => {
           </tbody>
         </table>
         <button onClick={editClose}>Close</button>
-        <button>Save</button>
+        <button onClick={onSave}>Save</button>
       </dialog>
     </>
   );
