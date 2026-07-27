@@ -54,6 +54,30 @@ const EnrollmentsView = () => {
     setEnrollments(updatedEnrollments);
   }
 
+  const onSave = async () => {
+    try {
+      const response = await fetch(`${GRADEBOOK_URL}/enrollments`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': sessionStorage.getItem('jwt'),
+          },
+          body: JSON.stringify(enrollments),
+        }
+      );
+
+      if (response.ok) {
+        setMessage('Final grades saved');
+      } else {
+        const body = await response.json();
+        setMessage(body);
+      }
+    } catch (err) {
+      setMessage(err);
+    }
+  }
+
   const headers = ['enrollment id', 'student id', 'name', 'email', 'grade'];
 
   return (
@@ -101,6 +125,10 @@ const EnrollmentsView = () => {
           ))}
         </tbody>
       </table>
+
+      <button id="saveGradesButton" onClick={onSave}>
+        Save All Grades
+      </button>
     </>
   );
 }
