@@ -39,6 +39,21 @@ const EnrollmentsView = () => {
     fetchEnrollments()
   }, []);
 
+  const onChange = (enrollmentId, value) => {
+    const updatedEnrollments = enrollments.map((enrollment) => {
+      if (enrollment.enrollmentId === enrollmentId) {
+        return {
+          ...enrollment,
+          grade: value
+        };
+      }
+
+      return enrollment;
+    });
+
+    setEnrollments(updatedEnrollments);
+  }
+
   const headers = ['enrollment id', 'student id', 'name', 'email', 'grade'];
 
   return (
@@ -62,7 +77,26 @@ const EnrollmentsView = () => {
               <td>{enrollment.studentId}</td>
               <td>{enrollment.name}</td>
               <td>{enrollment.email}</td>
-              <td>{enrollment.grade}</td>
+              <td>
+                <select
+                  value={enrollment.grade || ''}
+                  onChange={(event) => onChange(enrollment.enrollmentId, event.target.value)}
+                >
+                  <option value="">Select grade</option>
+                  <option value="A">A</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B">B</option>
+                  <option value="B-">B-</option>
+                  <option value="C+">C+</option>
+                  <option value="C">C</option>
+                  <option value="C-">C-</option>
+                  <option value="D+">D+</option>
+                  <option value="D">D</option>
+                  <option value="D-">D-</option>
+                  <option value="F">F</option>
+                </select>
+              </td>
             </tr>
           ))}
         </tbody>
