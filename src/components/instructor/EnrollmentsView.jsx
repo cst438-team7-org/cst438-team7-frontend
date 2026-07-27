@@ -22,6 +22,7 @@ const EnrollmentsView = () => {
           },
         }
       );
+
       if (response.ok) {
         const data = await response.json();
         setEnrollments(data);
@@ -38,17 +39,34 @@ const EnrollmentsView = () => {
     fetchEnrollments()
   }, []);
 
-
-
   const headers = ['enrollment id', 'student id', 'name', 'email', 'grade'];
 
   return (
     <>
       <h3> {courseId}-{secId} Enrollments</h3>
       <Messages response={message} />
-      <p>To be implemented. Display table with column headers as given in headers.
-        Allow user to edit the grade.  One button to Save all grades.
-      </p>
+
+      <table className="Center">
+        <thead>
+          <tr>
+            {headers.map((header, index) => (
+              <th key={index}>{header}</th>
+            ))}
+          </tr>
+        </thead>
+
+        <tbody>
+          {enrollments.map((enrollment) => (
+            <tr key={enrollment.enrollmentId}>
+              <td>{enrollment.enrollmentId}</td>
+              <td>{enrollment.studentId}</td>
+              <td>{enrollment.name}</td>
+              <td>{enrollment.email}</td>
+              <td>{enrollment.grade}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 }
