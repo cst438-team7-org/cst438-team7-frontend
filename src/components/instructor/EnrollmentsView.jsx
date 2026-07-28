@@ -22,6 +22,7 @@ const EnrollmentsView = () => {
           },
         }
       );
+
       if (response.ok) {
         const data = await response.json();
         setEnrollments(data);
@@ -38,7 +39,44 @@ const EnrollmentsView = () => {
     fetchEnrollments()
   }, []);
 
+  const onChange = (enrollmentId, value) => {
+    const updatedEnrollments = enrollments.map((enrollment) => {
+      if (enrollment.enrollmentId === enrollmentId) {
+        return {
+          ...enrollment,
+          grade: value
+        };
+      }
 
+      return enrollment;
+    });
+
+    setEnrollments(updatedEnrollments);
+  }
+
+  const onSave = async () => {
+    try {
+      const response = await fetch(`${GRADEBOOK_URL}/enrollments`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': sessionStorage.getItem('jwt'),
+          },
+          body: JSON.stringify(enrollments),
+        }
+      );
+
+      if (response.ok) {
+        setMessage('Final grades saved');
+      } else {
+        const body = await response.json();
+        setMessage(body);
+      }
+    } catch (err) {
+      setMessage(err);
+    }
+  }
 
   const headers = ['enrollment id', 'student id', 'name', 'email', 'grade'];
 
@@ -46,9 +84,51 @@ const EnrollmentsView = () => {
     <>
       <h3> {courseId}-{secId} Enrollments</h3>
       <Messages response={message} />
-      <p>To be implemented. Display table with column headers as given in headers.
-        Allow user to edit the grade.  One button to Save all grades.
-      </p>
+
+      <table className="Center">
+        <thead>
+          <tr>
+            {headers.map((header, index) => (
+              <th key={index}>{header}</th>
+            ))}
+          </tr>
+        </thead>
+
+        <tbody>
+          {enrollments.map((enrollment) => (
+            <tr key={enrollment.enrollmentId}>
+              <td>{enrollment.enrollmentId}</td>
+              <td>{enrollment.studentId}</td>
+              <td>{enrollment.name}</td>
+              <td>{enrollment.email}</td>
+              <td>
+                <select
+                  value={enrollment.grade || ''}
+                  onChange={(event) => onChange(enrollment.enrollmentId, event.target.value)}
+                >
+                  <option value="">Select grade</option>
+                  <option value="A">A</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B">B</option>
+                  <option value="B-">B-</option>
+                  <option value="C+">C+</option>
+                  <option value="C">C</option>
+                  <option value="C-">C-</option>
+                  <option value="D+">D+</option>
+                  <option value="D">D</option>
+                  <option value="D-">D-</option>
+                  <option value="F">F</option>
+                </select>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <button id="saveGradesButton" onClick={onSave}>
+        Save All Grades
+      </button>
     </>
   );
 }

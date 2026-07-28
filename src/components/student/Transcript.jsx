@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { REGISTRAR_URL } from '../../Constants';
 import Messages from '../Messages';
 
-
 const Transcript = () => {
 
   const [message, setMessage] = useState('');
@@ -41,10 +40,31 @@ const Transcript = () => {
   return (
     <>
       <h3>Transcript</h3>
-      <p>To be implemented.  Display a table showing the course a student has taken.
-        The table columns are given in headers.
-      </p>
+      <Messages response={message} />
 
+      <table className="Center">
+        <thead>
+          <tr>
+            {headers.map((header, index) => (
+              <th key={index}>{header}</th>
+            ))}
+          </tr>
+        </thead>
+
+        <tbody>
+          {courses.map((course) => (
+            <tr key={course.enrollmentId}>
+              <td>{course.year}</td>
+              <td>{course.semester}</td>
+              <td>{course.courseId}</td>
+              <td>{course.sectionId}</td>
+              <td>{course.title}</td>
+              <td>{course.credits}</td>
+              <td>{course.grade}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 }
