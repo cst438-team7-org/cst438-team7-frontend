@@ -92,6 +92,9 @@ const CourseEnroll = () => {
     'room',
     'times',
     'instructor',
+    'capacity',
+    'enrolled',
+    'available',
     '',
   ];
 
@@ -122,9 +125,15 @@ const CourseEnroll = () => {
               <td>{section.room}</td>
               <td>{section.times}</td>
               <td>{section.instructorName}</td>
+              <td>{section.capacity}</td>
+              <td>{section.enrolledSeats}</td>
+              <td>{section.availableSeats}</td>
               <td>
-                <button onClick={() => confirmEnrollment(section)}>
-                  Enroll
+                <button
+                  onClick={() => confirmEnrollment(section)}
+                  disabled={section.availableSeats <= 0}
+                >
+                  {section.availableSeats <= 0 ? 'Full' : 'Enroll'}
                 </button>
               </td>
             </tr>
