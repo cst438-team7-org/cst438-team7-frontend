@@ -59,7 +59,7 @@ const ScheduleView = () => {
 
       if (response.ok) {
         setMessage(
-          `Successfully dropped ${enrollment.courseId}-${enrollment.secId}`
+          `Successfully dropped ${enrollment.courseId}-${enrollment.sectionId}`
         );
         fetchEnrollments(term.year, term.semester);
       } else {
@@ -74,7 +74,7 @@ const ScheduleView = () => {
   const confirmDrop = (enrollment) => {
     confirmAlert({
       title: 'Confirm drop',
-      message: `Drop ${enrollment.courseId}-${enrollment.secId}?`,
+      message: `Drop ${enrollment.courseId}-${enrollment.sectionId}?`,
       buttons: [
         {
           label: 'Yes',
@@ -89,9 +89,9 @@ const ScheduleView = () => {
 
   const headings = [
     'enrollmentId',
-    'secNo',
+    'sectionNo',
     'courseId',
-    'secId',
+    'sectionId',
     'building',
     'room',
     'times',
@@ -116,9 +116,9 @@ const ScheduleView = () => {
           {enrollments.map((enrollment) => (
             <tr key={enrollment.enrollmentId}>
               <td>{enrollment.enrollmentId}</td>
-              <td>{enrollment.secNo}</td>
+              <td>{enrollment.sectionNo}</td>
               <td>{enrollment.courseId}</td>
-              <td>{enrollment.secId}</td>
+              <td>{enrollment.sectionId}</td>
               <td>{enrollment.building}</td>
               <td>{enrollment.room}</td>
               <td>{enrollment.times}</td>
