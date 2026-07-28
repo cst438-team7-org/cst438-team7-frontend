@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { REGISTRAR_URL } from '../../Constants';
 import Messages from '../Messages';
 
@@ -10,17 +12,14 @@ const CourseEnroll = () => {
   const [message, setMessage] = useState('');
 
   const fetchSections = async () => {
-    // get list of open sections for enrollment
     try {
-      const response = await fetch(`${REGISTRAR_URL}/sections/open`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': sessionStorage.getItem('jwt'),
-          },
-        }
-      );
+      const response = await fetch(`${REGISTRAR_URL}/sections/open`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': sessionStorage.getItem('jwt'),
+        },
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -33,11 +32,54 @@ const CourseEnroll = () => {
     } catch (err) {
       setMessage(err);
     }
-  }
+  };
 
   useEffect(() => {
     fetchSections();
   }, []);
+
+  const enrollInSection = async (section) => {
+    try {
+      const response = await fetch(
+        `${REGISTRAR_URL}/enrollments/sections/${section.secNo}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': sessionStorage.getItem('jwt'),
+          },
+        }
+      );
+
+      if (response.ok) {
+        setMessage(
+          `Successfully enrolled in ${section.courseId}-${section.secId}`
+        );
+        fetchSections();
+      } else {
+        const body = await response.json();
+        setMessage(body);
+      }
+    } catch (err) {
+      setMessage(err);
+    }
+  };
+
+  const confirmEnrollment = (section) => {
+    confirmAlert({
+      title: 'Confirm enrollment',
+      message: `Enroll in ${section.courseId}-${section.secId}?`,
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => enrollInSection(section),
+        },
+        {
+          label: 'No',
+        },
+      ],
+    });
+  };
 
   const headers = [
     'section No',
@@ -50,7 +92,7 @@ const CourseEnroll = () => {
     'room',
     'times',
     'instructor',
-    ''
+    '',
   ];
 
   return (
@@ -81,7 +123,9 @@ const CourseEnroll = () => {
               <td>{section.times}</td>
               <td>{section.instructorName}</td>
               <td>
-                <button>Enroll</button>
+                <button onClick={() => confirmEnrollment(section)}>
+                  Enroll
+                </button>
               </td>
             </tr>
           ))}
@@ -89,6 +133,6 @@ const CourseEnroll = () => {
       </table>
     </div>
   );
-}
+};
 
 export default CourseEnroll;
